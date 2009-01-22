@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Fetch Feed
-Plugin URI: http://jrtashjian.com
+Plugin URI: http://jrtashjian.com/?p=55
 Description: Fetches and Caches an RSS feed for display
 Version: 1.0
 Author: JR Tashjian
