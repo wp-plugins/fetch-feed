@@ -14,8 +14,6 @@ This plugin was created to retrieve and cache an RSS feed for use in a template.
 What you do is pass the url to the feed you would like returned and the number of minutes you would like the feed cached for. The 
 plugin will cache the RSS xml and return the feed as an object which you can loop through and output however you please.
 
-PHP 5 IS REQUIRED DUE TO THE USAGE OF simplexml
-
 
 == Installation ==
 
@@ -35,13 +33,13 @@ fetch_feed() is the only function you will be using with this plugin. Fetch_feed
 Here is an example of the plugin being used in a template:
 
 
-<?php $xml = fetch_feed("http://jrtashjian.com/feed/", 25); ?>
+`<?php $xml = fetch_feed("http://jrtashjian.com/feed/", 25); ?>
 <h2><?=$xml->channel->title?></h2>
 <ul>
 	<?php foreach($xml->channel->item as $item) : ?>
 		<li><a href="<?=$item->link?>"><?=$item->title?></a></li>
 	<?php endforeach; ?>
-</ul>
+</ul>`
 
 
-Remeber, every feed could be different. If you need to see the structure of the object returned just use print_r(). eg. print_r(fetch_feed("http://jrtashjian.com/feed/", 25));
+Remeber, every feed could be different. If you need to see the structure of the object returned just use print_r(). eg. `<?php print_r(fetch_feed("http://jrtashjian.com/feed/", 25)); ?>`
