@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Fetch Feed
-Plugin URI: http://jrtashjian.com/?p=55
+Plugin URI: http://jrtashjian.com
 Description: Fetches and Caches an RSS feed for display
-Version: 1.0
+Version: 1.1
 Author: JR Tashjian
 Author URI: http://jrtashjian.com
 */
@@ -25,37 +25,37 @@ Author URI: http://jrtashjian.com
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-function cache($url, $localfile)
+function fetch_feed($url, $cache_minutes = 1)
 {
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-	$data = curl_exec($ch);
-	curl_close($ch);
+	$localfile = WP_PLUGIN_DIR . '/fetch-feed/cache/' . md5($url) . '.xml';
 	
-	$file = fopen($localfile, "w");
-	fwrite($file, $data);
-	fclose($file);
-}
-
-function fetch_feed($url, $cache_min = 1)
-{
-	$name = parse_url($url);
-	$name = $name['host'];
-	$localfile = WP_PLUGIN_DIR . "/fetch-feed/cache/" . $name . ".xml";
+	if(( ! file_exists($localfile)) OR (file_exists($localfile) AND ((time() - filemtime($localfile)) / 60) > $cache_minutes) OR (file_exists($localfile) AND filesize($localfile) != 0))
+	{
+		// initialize curl resource
+		$ch = curl_init();
+		
+		// set curl options
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+		
+		// execute curl
+		$response = curl_exec($ch);
+		
+		// cache the response
+		$file = fopen($localfile, "w");
+		fwrite($file, $response);
+		fclose($file);
+		
+		// close curl resource
+		curl_close($ch);
+	}
 	
-	if( ! file_exists($localfile))
-	{
-		touch($localfile);
-		chmod($localfile, 0666);
-		cache($url, $localfile);
-	}
-	else if( ((time()-filemtime($localfile))/60) > $cache_min)
-	{
-		cache($url, $localfile);
-	}
+	if(filesize($localfile) == 0) { return FALSE; }
 	
 	return simplexml_load_file($localfile);
 }
-?>
+
+/* End of file fetch-feed.php */
+/* Location: ./path/to/fetch-feed.php */

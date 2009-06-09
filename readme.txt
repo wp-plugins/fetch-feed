@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: JR Tashjian
-Tags: rss, feeds
+Tags: rss, feeds, cache
 Requires at least: 2.5
 Tested up to: 2.7
-Stable tag: 1.0
+Stable tag: 1.1
 
 Fetches an RSS feed and returns RSS as array
 
@@ -13,6 +13,11 @@ This plugin was created to retrieve and cache an RSS feed for use in a template.
 
 What you do is pass the url to the feed you would like returned and the number of minutes you would like the feed cached for. The 
 plugin will cache the RSS xml and return the feed as an object which you can loop through and output however you please.
+
+New As Of Version 1.2:
+- Better caching of feeds
+- If url is unreachable at some point but has already been cached, current cache file is used
+- Checks if file is empty
 
 
 == Installation ==
@@ -32,14 +37,21 @@ fetch_feed() is the only function you will be using with this plugin. Fetch_feed
 
 Here is an example of the plugin being used in a template:
 
-
-`<?php $xml = fetch_feed("http://jrtashjian.com/feed/", 25); ?>
-<h2><?=$xml->channel->title?></h2>
+`<?php $xml = fetch_feed("http://jrashjian.com/feed/", 60); ?>
+<h3><?=$xml->channel->title?></h3>
 <ul>
-	<?php foreach($xml->channel->item as $item) : ?>
-		<li><a href="<?=$item->link?>"><?=$item->title?></a></li>
-	<?php endforeach; ?>
+	<?php if( ! empty($xml)) : ?>
+		<?php foreach($xml->channel->item as $item) : ?>
+			<li><a href="<?=$item->link?>"><?=$item->title?></a></li>
+		<?php endforeach; ?>
+	<?php else : ?>
+		<p>Delicious doesn't seem to be working at the moment...</p>
+	<?php endif; ?>
 </ul>`
 
 
-Remeber, every feed could be different. If you need to see the structure of the object returned just use print_r(). eg. `<?php print_r(fetch_feed("http://jrtashjian.com/feed/", 25)); ?>`
+Remeber, every feed could be different. If you need to see the structure of the object returned just use print_r().
+Example:
+`<?php
+print_r(fetch_feed("http://jrtashjian.com/feed/", 25));
+?>`
