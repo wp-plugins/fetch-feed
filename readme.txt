@@ -14,7 +14,7 @@ This plugin was created to retrieve and cache an RSS feed for use in a template.
 What you do is pass the url to the feed you would like returned and the number of minutes you would like the feed cached for. The 
 plugin will cache the RSS xml and return the feed as an object which you can loop through and output however you please.
 
-New As Of Version 1.2:
+New As Of Version 1.1:
 - Better caching of feeds
 - If url is unreachable at some point but has already been cached, current cache file is used
 - Checks if file is empty
@@ -51,7 +51,4 @@ Here is an example of the plugin being used in a template:
 
 
 Remeber, every feed could be different. If you need to see the structure of the object returned just use print_r().
-Example:
-`<?php
-print_r(fetch_feed("http://jrtashjian.com/feed/", 25));
-?>`
+Example: `<?php print_r(fetch_feed("http://jrtashjian.com/feed/", 25)); ?>`
