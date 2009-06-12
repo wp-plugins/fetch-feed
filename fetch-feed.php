@@ -3,7 +3,7 @@
 Plugin Name: Fetch Feed
 Plugin URI: http://jrtashjian.com
 Description: Fetches and Caches an RSS feed for display
-Version: 1.1
+Version: 1.4
 Author: JR Tashjian
 Author URI: http://jrtashjian.com
 */
@@ -25,7 +25,7 @@ Author URI: http://jrtashjian.com
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-function fetch_feed($url, $cache_minutes = 1)
+function fetch_feed_cache($url, $cache_minutes = 1)
 {
 	$localfile = WP_PLUGIN_DIR . '/fetch-feed/cache/' . md5($url) . '.xml';
 	
