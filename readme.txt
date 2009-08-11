@@ -3,7 +3,7 @@ Contributors: JR Tashjian
 Tags: rss, feeds, cache
 Requires at least: 2.5
 Tested up to: 2.8
-Stable tag: 1.4
+Stable tag: 1.5
 
 Fetches an RSS feed and returns RSS as array
 
@@ -14,9 +14,8 @@ This plugin was created to retrieve and cache an RSS feed for use in a template.
 What you do is pass the url to the feed you would like returned and the number of minutes you would like the feed cached for. The 
 plugin will cache the RSS xml and return the feed as an object which you can loop through and output however you please.
 
-New As Of Version 1.4:
-- Compatible with Wordpress 2.8
-- Function name changed to fetch_feed_cache() instead of fetch_feed()
+New As Of Version 1.5:
+- Fixed a typo that caused the feed to be retrieved and cached every time. Credit: Binny V A (http://www.bin-co.com/blog/) - Thanks man!
 
 
 == Installation ==
